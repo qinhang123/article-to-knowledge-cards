@@ -18,6 +18,10 @@ Thumbs.db
 # TRAE internal
 .trae-html-share-packages/
 
+# gh auth temporary files
+gh_auth_*.txt
+gh_login_*.txt
+
 # Temporary extraction outputs
 *_extracted.txt
 
