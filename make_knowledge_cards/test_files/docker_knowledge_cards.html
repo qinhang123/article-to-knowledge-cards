@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker and Container Fundamentals - Knowledge Cards</title>
+<style>
+:root {
+  --bg: #f0f2f5;
+  --card-bg: #ffffff;
+  --primary: #2563eb;
+  --primary-light: #dbeafe;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --accent: #f59e0b;
+  --accent-light: #fef3c7;
+  --green: #10b981;
+  --green-light: #d1fae5;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 24px;
+}
+.header {
+  max-width: 820px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.header .meta {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.header .meta span {
+  display: inline-block;
+  margin: 0 8px;
+}
+.cards-container {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  page-break-inside: avoid;
+}
+.card-number {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+.card-section {
+  margin-bottom: 16px;
+}
+.card-section:last-child {
+  margin-bottom: 0;
+}
+.card-section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.card-section-content {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.section-core .card-section-label { color: var(--primary); }
+.section-core { border-left: 3px solid var(--primary); padding-left: 14px; }
+.section-explanation .card-section-label { color: var(--green); }
+.section-explanation { border-left: 3px solid var(--green); padding-left: 14px; }
+.section-example .card-section-label { color: var(--accent); }
+.section-example { border-left: 3px solid var(--accent); padding-left: 14px; }
+.section-example .card-section-content {
+  background: var(--accent-light);
+  border-radius: 8px;
+  padding: 12px 14px;
+  border-left: none;
+}
+.section-self-test .card-section-label { color: var(--purple); }
+.section-self-test { border-left: 3px solid var(--purple); padding-left: 14px; }
+.section-self-test .card-section-content {
+  background: var(--purple-light);
+  border-radius: 8px;
+  padding: 12px 14px;
+  border-left: none;
+  font-style: italic;
+}
+.section-summary .card-section-label { color: var(--text-muted); }
+.section-summary { border-left: 3px solid var(--border); padding-left: 14px; }
+.section-summary .card-section-content {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.no-example {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 14px;
+}
+.footer {
+  max-width: 820px;
+  margin: 32px auto 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+@media print {
+  body { background: #fff; padding: 12px; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Docker and Container Fundamentals</h1>
+  <div class="meta">
+    <span>Source: docker_fundamentals.md</span>
+    <span>Cards: 8</span>
+  </div>
+</div>
+<div class="cards-container">
+<div class="card">
+  <span class="card-number">Card 1</span>
+  <h2 class="card-title">Container vs Virtual Machine</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">A container is a lightweight, standalone executable package that includes code, runtime, libraries, and settings. Containers share the host OS kernel rather than running a full guest OS, making them tens of megabytes versus gigabytes for VMs, and starting in seconds rather than minutes.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">Containers isolate applications from each other and the underlying infrastructure. The key difference from VMs is that containers do not bundle a full operating system, which dramatically reduces size and startup time while ensuring consistent behavior across environments.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content">The document notes that containers are typically tens of megabytes compared to gigabytes for virtual machines, and they start in seconds rather than minutes.</div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">What is the primary difference between a container and a virtual machine in terms of the operating system?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">Containers achieve isolation without the overhead of a full guest OS, trading VM-level isolation for dramatically smaller footprint and faster startup.</div>
+  </div>
+</div>
+<div class="card">
+  <span class="card-number">Card 2</span>
+  <h2 class="card-title">Container Images and Registries</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">A container image is a read-only template built from a Dockerfile. Images are stored in registries, with Docker Hub as the default public registry. An image is referenced by name and tag (e.g., nginx:1.21), defaulting to 'latest' when no tag is specified.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">The Dockerfile contains instructions that define the image. Organizations can run private registries for internal use. Tags allow version management, with the implicit 'latest' tag being the default when none is specified.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content">The document gives the example of referencing an image as `nginx:1.21`, where nginx is the name and 1.21 is the tag.</div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">What happens when you reference a Docker image without specifying a tag?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">Images bridge the gap between Dockerfile instructions and runnable containers, with registries serving as the distribution mechanism and tags providing version control.</div>
+  </div>
+</div>
+<div class="card">
+  <span class="card-number">Card 3</span>
+  <h2 class="card-title">Layered Filesystem and Copy-on-Write</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">Docker images use a layered filesystem based on Union File System. Each Dockerfile instruction creates a new layer. Layers are stacked and shared across images. When a container starts, a thin writable layer is added on top. Copy-on-write means modified files are copied to the writable layer before modification.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">The layered approach allows shared base layers to be stored once on disk, saving space and reducing build time. Copy-on-write preserves the original read-only layers while allowing containers to modify files without affecting the base image or other containers.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content">The document explains that if two images share the same base layers, they share the same files on disk, saving storage space and reducing build time.</div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">How does Docker's copy-on-write mechanism protect the original image when a container modifies a file?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">Layered filesystems with copy-on-write enable efficient storage sharing and immutability of base images, at the cost of a small overhead when files are first modified.</div>
+  </div>
+</div>
+<div class="card">
+  <span class="card-number">Card 4</span>
+  <h2 class="card-title">Docker Client-Server Architecture</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">Docker uses a client-server architecture. The Docker client (docker CLI) communicates with the Docker daemon (dockerd) via a REST API. The daemon is responsible for building, running, and managing containers, and interacts with the kernel to manage container processes.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">The daemon runs on the host OS and handles all container operations. The client can connect to either a local or remote daemon, with communication happening over Unix sockets or TCP. This separation allows remote management of Docker hosts.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content"><span class="no-example">原文未提供示例</span></div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">What protocol does the Docker client use to communicate with the daemon?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">The client-server design enables remote Docker management and decouples the user interface from the container engine, but it also means the daemon is a single point of failure for the host.</div>
+  </div>
+</div>
+<div class="card">
+  <span class="card-number">Card 5</span>
+  <h2 class="card-title">Container Network Drivers</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">Docker provides several network drivers: bridge (default, internal network on host), host (no isolation, uses host networking), none (all networking disabled), and overlay (VXLAN-based virtual network spanning multiple hosts). Port mapping exposes container ports to the host.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">Bridge networks let containers on the same bridge communicate via IP. Host networking removes isolation for maximum performance. Overlay networks enable multi-host communication. Port mapping (e.g., -p 8080:80) makes containerized applications accessible externally.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content">The document gives the example: `docker run -p 8080:80 nginx` maps port 80 in the container to port 8080 on the host.</div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">Which Docker network driver would you use for communication between containers across multiple hosts?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">Docker's networking model offers a spectrum from full isolation (bridge) to no isolation (host), with overlay networks bridging the gap for distributed deployments.</div>
+  </div>
+</div>
+<div class="card">
+  <span class="card-number">Card 6</span>
+  <h2 class="card-title">Data Volumes and Persistence</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">Containers are ephemeral; their writable layer is removed when the container is removed. Docker volumes persist data beyond the container lifecycle. Volumes are managed by Docker, independent of container lifecycle, and can be shared between containers. Bind mounts mount host directories into containers but are less portable.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">Volumes are the recommended approach for data persistence because they are managed by Docker and stored in a specific location on the host. Bind mounts are more flexible but less portable. Both mechanisms prevent data loss when containers are removed.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content">The document explains that volumes can be shared between containers and are stored in a specific location on the host, while bind mounts allow mounting any directory but are less portable.</div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">What is the difference between Docker volumes and bind mounts in terms of portability?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">Volumes solve the fundamental tension between container ephemerality and data persistence, with the trade-off between Docker-managed volumes and flexible bind mounts.</div>
+  </div>
+</div>
+<div class="card">
+  <span class="card-number">Card 7</span>
+  <h2 class="card-title">Docker Compose for Multi-Container Apps</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">Docker Compose defines and runs multi-container applications using a YAML file (docker-compose.yml). It configures all services, networks, and volumes. A single command (docker compose up) starts the entire application stack with proper networking and dependency management.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">Compose is particularly useful for development and testing. It allows defining multiple services (e.g., web server, app server, database) that need to run together, with proper networking and dependency management configured declaratively.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content">The document describes a scenario where a web application needs a web server, application server, and database running together, all defined and started with a single Compose command.</div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">What single command starts all services defined in a docker-compose.yml file?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">Compose transforms multi-container complexity into a declarative, reproducible configuration, making it ideal for development environments but potentially limited for production orchestration.</div>
+  </div>
+</div>
+<div class="card">
+  <span class="card-number">Card 8</span>
+  <h2 class="card-title">Container Orchestration Fundamentals</h2>
+  <div class="card-section section-core">
+    <div class="card-section-label">Core Knowledge</div>
+    <div class="card-section-content">Container orchestration automates deployment, scaling, and management of containerized applications. Kubernetes is the most popular platform. Orchestration handles scheduling (which host runs which container), scaling (adding/removing instances), self-healing (restarting failed containers), rolling updates, service discovery, load balancing, and configuration management.</div>
+  </div>
+  <div class="card-section section-explanation">
+    <div class="card-section-label">Explanation</div>
+    <div class="card-section-content">As container count grows, manual management becomes impractical. Orchestration tools provide the automation needed for production deployments, ensuring high availability, efficient resource utilization, and zero-downtime updates across a cluster of machines.</div>
+  </div>
+  <div class="card-section section-example">
+    <div class="card-section-label">Example</div>
+    <div class="card-section-content">The document lists specific orchestration capabilities: scheduling, scaling based on load, self-healing by restarting failed containers, and rolling updates without downtime.</div>
+  </div>
+  <div class="card-section section-self-test">
+    <div class="card-section-label">Self-Test</div>
+    <div class="card-section-content">What are the four main responsibilities of a container orchestration tool as described in the document?</div>
+  </div>
+  <div class="card-section section-summary">
+    <div class="card-section-label">Summary</div>
+    <div class="card-section-content">Orchestration is the natural evolution from single-container Docker to production-scale deployments, with Kubernetes emerging as the de facto standard despite its complexity.</div>
+  </div>
+</div>
+</div>
+<div class="footer">
+  Generated by make-knowledge-cards skill
+</div>
+</body>
+</html>

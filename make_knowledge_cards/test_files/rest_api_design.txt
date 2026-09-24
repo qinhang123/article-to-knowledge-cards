@@ -1,0 +1,37 @@
+REST API Design Principles
+
+1. Resource-Based URLs
+
+REST APIs should be organized around resources, not actions. A resource is any object that can be accessed via a URL. For example, instead of using URLs like /getUser?id=123 or /createOrder, RESTful design uses /users/123 and /orders with appropriate HTTP methods.
+
+Resource names should be nouns, not verbs. Use plural nouns for collections: /articles, /users, /orders. A specific resource is accessed by appending its identifier: /articles/42. This makes the API intuitive and predictable.
+
+2. HTTP Methods as Actions
+
+HTTP methods define the action to perform on a resource. GET retrieves a resource and is safe (should not modify data). POST creates a new resource. PUT updates an entire resource or creates it if it does not exist. PATCH partially updates a resource. DELETE removes a resource.
+
+The method indicates intent without encoding it in the URL. This separation of action and resource keeps the API clean. For example, POST /orders creates an order, GET /orders/99 retrieves it, PUT /orders/99 updates it entirely, and DELETE /orders/99 removes it.
+
+3. HTTP Status Codes
+
+HTTP status codes communicate the result of a request. The 2xx range indicates success: 200 OK for successful GET, 201 Created for successful POST, 204 No Content for successful DELETE. The 4xx range indicates client errors: 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found. The 5xx range indicates server errors.
+
+Using correct status codes is essential for API consumers to handle responses properly. A 200 OK for a failed creation request is misleading and breaks REST conventions. Each response should include the appropriate status code so that clients can implement proper error handling and user feedback.
+
+4. Statelessness
+
+REST APIs are stateless. Each request from client to server must contain all information needed to understand and process the request. The server does not store client state between requests. This means no server-side sessions.
+
+Statelessness improves scalability because the server does not need to maintain or look up session state. Any server instance can handle any request, which simplifies load balancing. Authentication is typically handled via tokens (e.g., JWT) or API keys sent with each request, rather than server-side sessions.
+
+5. Versioning
+
+APIs evolve over time. New fields are added, response formats change, and endpoints are deprecated. Versioning allows existing clients to continue using the old API while new clients adopt the new version.
+
+The most common versioning approach is URI versioning: /api/v1/users, /api/v2/users. Another approach is header-based versioning using the Accept header. URI versioning is simpler and more visible, making it easier for developers to understand which version they are using.
+
+6. Pagination and Filtering
+
+APIs that return collections should support pagination to avoid sending large datasets in a single response. Common pagination strategies include offset-based (/articles?offset=0&limit=20), cursor-based (/articles?cursor=abc123), and page-based (/articles?page=1&size=20).
+
+Filtering allows clients to narrow results: /articles?author=john&status=published. Sorting can be controlled with query parameters: /articles?sort=-created_at. These capabilities keep responses manageable and reduce bandwidth consumption.

@@ -1,0 +1,71 @@
+{
+  "source_file": "database_indexing.pdf",
+  "source_title": "Database Indexing and Query Optimization",
+  "card_count": 8,
+  "cards": [
+    {
+      "title": "Database Index Fundamentals",
+      "core_knowledge": "A database index is a data structure that improves data retrieval speed. Without an index, the database performs a full table scan (checking every row). With an index, it can quickly locate relevant rows. The most common type is the B-tree index, which maintains sorted data and allows searches, insertions, and deletions in logarithmic time.",
+      "explanation": "An index is created on one or more columns of a table. The trade-off is faster reads at the cost of additional storage and slower writes, since the index must be maintained alongside the table data.",
+      "example": "The document explains that without an index, the database must scan every row to find matching records (a full table scan), while an index allows quick location of relevant rows.",
+      "self_test": "What is a full table scan and when does the database perform one?",
+      "summary": "Indexes are the primary mechanism for query performance optimization, trading storage and write speed for dramatically faster read operations."
+    },
+    {
+      "title": "B-Tree Index Structure",
+      "core_knowledge": "A B-tree is a self-balancing tree that maintains sorted data. Each node can contain multiple keys and child pointers, making B-trees shallower than binary trees. The database reads data in fixed-size blocks called pages, and B-trees are designed so each node fits within a single page. The root node is always in memory, so typical lookups require only a few disk reads.",
+      "explanation": "The shallowness of B-trees means fewer disk reads because each node fits in one page and the root is always cached in memory. This is critical for large tables where disk I/O is the bottleneck.",
+      "example": "The document states that because the root node is always kept in memory, a typical lookup requires only a few disk reads even for very large tables.",
+      "self_test": "Why does the B-tree structure result in fewer disk reads compared to a binary tree for the same number of keys?",
+      "summary": "B-trees are optimized for disk-based storage by aligning node size with page size, minimizing I/O for large datasets."
+    },
+    {
+      "title": "Composite Indexes and Leftmost Prefix Rule",
+      "core_knowledge": "A composite index is an index on multiple columns. The column order matters significantly: the index is sorted by the first column, then by the second within groups of the same first column value, and so on. An index on (last_name, first_name) can serve queries filtering by last_name alone or both columns, but not first_name alone. This is the leftmost prefix rule.",
+      "explanation": "The leftmost prefix rule means the index can only be used efficiently if the query filters on the leading column(s) of the composite index. Queries that skip the first column cannot leverage the index's sort order.",
+      "example": "The document gives the example of an index on (last_name, first_name): it serves queries filtering by last_name alone or both columns, but cannot efficiently serve queries filtering by first_name alone.",
+      "self_test": "Given a composite index on (department, employee_name), can it efficiently serve a query filtering only by employee_name? Why or why not?",
+      "summary": "Composite index column order is a critical design decision — it must match the most common query patterns, as the leftmost prefix rule determines which queries can use the index."
+    },
+    {
+      "title": "Index Selectivity and Optimizer Decisions",
+      "core_knowledge": "Selectivity measures how many rows an index filters out. A highly selective index leaves a small result set. A unique index has perfect selectivity. The query optimizer uses selectivity to decide whether to use an index. If an index is not selective enough, the optimizer may prefer a full table scan because the overhead of reading the index plus fetching rows exceeds a direct table scan.",
+      "explanation": "Selectivity determines the practical value of an index. An index on a low-cardinality column (e.g., gender with two values) may be ignored by the optimizer because the overhead of index lookups outweighs the benefit of filtering.",
+      "example": "The document gives the example of an index on a gender column with only two values — the optimizer may prefer a full table scan because reading the index and then fetching rows is more expensive than scanning the table directly.",
+      "self_test": "Why might a query optimizer choose a full table scan over using an index?",
+      "summary": "Adding an index does not guarantee it will be used — the optimizer evaluates selectivity to make cost-based decisions, making index design a query-specific problem."
+    },
+    {
+      "title": "Covering Indexes and Index-Only Scans",
+      "core_knowledge": "A covering index contains all columns needed by a query. When available, the database satisfies the query entirely from the index without accessing table data — an index-only scan. This is significantly faster than regular index lookups because it avoids the random I/O of fetching table rows.",
+      "explanation": "Regular index lookups require two steps: find the matching index entries, then fetch the corresponding table rows. Covering indexes eliminate the second step by storing all needed columns in the index itself, avoiding expensive random disk I/O.",
+      "example": "The document gives the example of a query selecting first_name and last_name from a users table — an index on (last_name, first_name) serves as a covering index because all needed data is in the index.",
+      "self_test": "What is an index-only scan and why is it faster than a regular index lookup?",
+      "summary": "Covering indexes are one of the most powerful query optimization techniques, eliminating random I/O at the cost of larger index sizes and more complex index maintenance."
+    },
+    {
+      "title": "Query Execution Plans and EXPLAIN",
+      "core_knowledge": "A query execution plan describes how the database executes a SQL statement, including which tables are accessed, which indexes are used, join methods, and estimated cost. The query optimizer generates the plan by evaluating multiple strategies and choosing the lowest-cost one. Developers use the EXPLAIN command to view the plan and identify performance issues.",
+      "explanation": "The execution plan is the optimizer's blueprint for query execution. By examining it, developers can spot missing indexes, inefficient join strategies, and other performance bottlenecks that are invisible from the SQL query alone.",
+      "example": "The document mentions that developers can use the EXPLAIN command to view the execution plan and identify issues such as missing indexes or inefficient join strategies.",
+      "self_test": "What information does a query execution plan provide, and what command is used to view it?",
+      "summary": "Execution plans are the primary diagnostic tool for query optimization — they reveal the gap between what you asked for and how the database actually executes it."
+    },
+    {
+      "title": "Index Maintenance and Write Performance Trade-offs",
+      "core_knowledge": "Indexes improve read performance but slow down writes. Each INSERT, UPDATE, or DELETE must update all affected indexes. Over time, indexes can become fragmented due to page splits and deletions, leading to lower cache hit rates and more disk I/O. Regular index rebuilding or reorganizing restores performance. The decision to add an index should consider the read-to-write ratio, query patterns, and available storage.",
+      "explanation": "Fragmentation occurs because B-tree pages are not always full after splits and deletions. Fragmented indexes waste space and require more I/O. Rebuilding reorganizes the index to be compact and efficient again.",
+      "example": "The document explains that indexes become fragmented due to page splits and deletions, and that regular index rebuilding or reorganizing can restore performance.",
+      "self_test": "What causes index fragmentation and how can it be resolved?",
+      "summary": "Indexes are not free — they impose ongoing maintenance costs and write penalties, making index design a balance between read performance gains and write/storage overhead."
+    },
+    {
+      "title": "Full-Text Search and Inverted Indexes",
+      "core_knowledge": "Standard B-tree indexes are unsuitable for text search because they match exact values or prefixes. Full-text search uses an inverted index, which maps each word (token) to a list of documents containing it. The text is processed through tokenization (splitting into words), stemming (reducing to root forms), and stop word removal (removing common words like 'the' and 'is').",
+      "explanation": "The inverted index is fundamentally different from a B-tree: instead of mapping rows to values, it maps words to rows. Text preprocessing (tokenization, stemming, stop word removal) normalizes the text so that searches match conceptually related terms, not just exact strings.",
+      "example": "The document describes the text preprocessing pipeline: tokenization splits text into words, stemming reduces words to root forms, and stop word removal eliminates common words like 'the' and 'is'.",
+      "self_test": "What three preprocessing steps does full-text search apply to text before building the inverted index?",
+      "summary": "Full-text search requires a completely different index structure (inverted index) and a text processing pipeline, reflecting the fundamentally different nature of text search versus value lookup."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TRAE internal
+.trae-html-share-packages/
+
+# Temporary extraction outputs
+*_extracted.txt
+
+# Temporary/generated card files (uncomment to ignore)
+# make_knowledge_cards/test_files/*_cards.json
+# make_knowledge_cards/test_files/*_knowledge_cards.html

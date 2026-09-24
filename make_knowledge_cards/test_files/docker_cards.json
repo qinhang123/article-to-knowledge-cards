@@ -1,0 +1,71 @@
+{
+  "source_file": "docker_fundamentals.md",
+  "source_title": "Docker and Container Fundamentals",
+  "card_count": 8,
+  "cards": [
+    {
+      "title": "Container vs Virtual Machine",
+      "core_knowledge": "A container is a lightweight, standalone executable package that includes code, runtime, libraries, and settings. Containers share the host OS kernel rather than running a full guest OS, making them tens of megabytes versus gigabytes for VMs, and starting in seconds rather than minutes.",
+      "explanation": "Containers isolate applications from each other and the underlying infrastructure. The key difference from VMs is that containers do not bundle a full operating system, which dramatically reduces size and startup time while ensuring consistent behavior across environments.",
+      "example": "The document notes that containers are typically tens of megabytes compared to gigabytes for virtual machines, and they start in seconds rather than minutes.",
+      "self_test": "What is the primary difference between a container and a virtual machine in terms of the operating system?",
+      "summary": "Containers achieve isolation without the overhead of a full guest OS, trading VM-level isolation for dramatically smaller footprint and faster startup."
+    },
+    {
+      "title": "Container Images and Registries",
+      "core_knowledge": "A container image is a read-only template built from a Dockerfile. Images are stored in registries, with Docker Hub as the default public registry. An image is referenced by name and tag (e.g., nginx:1.21), defaulting to 'latest' when no tag is specified.",
+      "explanation": "The Dockerfile contains instructions that define the image. Organizations can run private registries for internal use. Tags allow version management, with the implicit 'latest' tag being the default when none is specified.",
+      "example": "The document gives the example of referencing an image as `nginx:1.21`, where nginx is the name and 1.21 is the tag.",
+      "self_test": "What happens when you reference a Docker image without specifying a tag?",
+      "summary": "Images bridge the gap between Dockerfile instructions and runnable containers, with registries serving as the distribution mechanism and tags providing version control."
+    },
+    {
+      "title": "Layered Filesystem and Copy-on-Write",
+      "core_knowledge": "Docker images use a layered filesystem based on Union File System. Each Dockerfile instruction creates a new layer. Layers are stacked and shared across images. When a container starts, a thin writable layer is added on top. Copy-on-write means modified files are copied to the writable layer before modification.",
+      "explanation": "The layered approach allows shared base layers to be stored once on disk, saving space and reducing build time. Copy-on-write preserves the original read-only layers while allowing containers to modify files without affecting the base image or other containers.",
+      "example": "The document explains that if two images share the same base layers, they share the same files on disk, saving storage space and reducing build time.",
+      "self_test": "How does Docker's copy-on-write mechanism protect the original image when a container modifies a file?",
+      "summary": "Layered filesystems with copy-on-write enable efficient storage sharing and immutability of base images, at the cost of a small overhead when files are first modified."
+    },
+    {
+      "title": "Docker Client-Server Architecture",
+      "core_knowledge": "Docker uses a client-server architecture. The Docker client (docker CLI) communicates with the Docker daemon (dockerd) via a REST API. The daemon is responsible for building, running, and managing containers, and interacts with the kernel to manage container processes.",
+      "explanation": "The daemon runs on the host OS and handles all container operations. The client can connect to either a local or remote daemon, with communication happening over Unix sockets or TCP. This separation allows remote management of Docker hosts.",
+      "example": "原文未提供示例",
+      "self_test": "What protocol does the Docker client use to communicate with the daemon?",
+      "summary": "The client-server design enables remote Docker management and decouples the user interface from the container engine, but it also means the daemon is a single point of failure for the host."
+    },
+    {
+      "title": "Container Network Drivers",
+      "core_knowledge": "Docker provides several network drivers: bridge (default, internal network on host), host (no isolation, uses host networking), none (all networking disabled), and overlay (VXLAN-based virtual network spanning multiple hosts). Port mapping exposes container ports to the host.",
+      "explanation": "Bridge networks let containers on the same bridge communicate via IP. Host networking removes isolation for maximum performance. Overlay networks enable multi-host communication. Port mapping (e.g., -p 8080:80) makes containerized applications accessible externally.",
+      "example": "The document gives the example: `docker run -p 8080:80 nginx` maps port 80 in the container to port 8080 on the host.",
+      "self_test": "Which Docker network driver would you use for communication between containers across multiple hosts?",
+      "summary": "Docker's networking model offers a spectrum from full isolation (bridge) to no isolation (host), with overlay networks bridging the gap for distributed deployments."
+    },
+    {
+      "title": "Data Volumes and Persistence",
+      "core_knowledge": "Containers are ephemeral; their writable layer is removed when the container is removed. Docker volumes persist data beyond the container lifecycle. Volumes are managed by Docker, independent of container lifecycle, and can be shared between containers. Bind mounts mount host directories into containers but are less portable.",
+      "explanation": "Volumes are the recommended approach for data persistence because they are managed by Docker and stored in a specific location on the host. Bind mounts are more flexible but less portable. Both mechanisms prevent data loss when containers are removed.",
+      "example": "The document explains that volumes can be shared between containers and are stored in a specific location on the host, while bind mounts allow mounting any directory but are less portable.",
+      "self_test": "What is the difference between Docker volumes and bind mounts in terms of portability?",
+      "summary": "Volumes solve the fundamental tension between container ephemerality and data persistence, with the trade-off between Docker-managed volumes and flexible bind mounts."
+    },
+    {
+      "title": "Docker Compose for Multi-Container Apps",
+      "core_knowledge": "Docker Compose defines and runs multi-container applications using a YAML file (docker-compose.yml). It configures all services, networks, and volumes. A single command (docker compose up) starts the entire application stack with proper networking and dependency management.",
+      "explanation": "Compose is particularly useful for development and testing. It allows defining multiple services (e.g., web server, app server, database) that need to run together, with proper networking and dependency management configured declaratively.",
+      "example": "The document describes a scenario where a web application needs a web server, application server, and database running together, all defined and started with a single Compose command.",
+      "self_test": "What single command starts all services defined in a docker-compose.yml file?",
+      "summary": "Compose transforms multi-container complexity into a declarative, reproducible configuration, making it ideal for development environments but potentially limited for production orchestration."
+    },
+    {
+      "title": "Container Orchestration Fundamentals",
+      "core_knowledge": "Container orchestration automates deployment, scaling, and management of containerized applications. Kubernetes is the most popular platform. Orchestration handles scheduling (which host runs which container), scaling (adding/removing instances), self-healing (restarting failed containers), rolling updates, service discovery, load balancing, and configuration management.",
+      "explanation": "As container count grows, manual management becomes impractical. Orchestration tools provide the automation needed for production deployments, ensuring high availability, efficient resource utilization, and zero-downtime updates across a cluster of machines.",
+      "example": "The document lists specific orchestration capabilities: scheduling, scaling based on load, self-healing by restarting failed containers, and rolling updates without downtime.",
+      "self_test": "What are the four main responsibilities of a container orchestration tool as described in the document?",
+      "summary": "Orchestration is the natural evolution from single-container Docker to production-scale deployments, with Kubernetes emerging as the de facto standard despite its complexity."
+    }
+  ]
+}
